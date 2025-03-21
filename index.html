@@ -57,6 +57,23 @@
     </section>
     <!-- You can add more sections here -->
   </main>
+  <!-- 🚀 Signup Form -->
+  <form onsubmit="signupUser(event)">
+      <input type="text" id="signup-username" placeholder="Username" required>
+      <input type="email" id="signup-email" placeholder="Email" required>
+      <input type="password" id="signup-password" placeholder="Password" required>
+      <button type="submit">Sign Up</button>
+  </form>
+
+  <!-- 🚀 Login Form -->
+  <form onsubmit="loginUser(event)">
+      <input type="email" id="login-email" placeholder="Email" required>
+      <input type="password" id="login-password" placeholder="Password" required>
+      <button type="submit">Login</button>
+  </form>
+
+  <!-- 🚪 Logout Button -->
+  <button onclick="logoutUser()">Logout</button>
 
   <!-- Chatbot Widget Placeholder -->
   <div id="chat-widget" class="chat-closed">
@@ -82,5 +99,35 @@
   <script>
     AOS.init();
   </script>
+  <!-- 🔑 Signup Modal -->
+  <div id="signup-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('signup-modal')">&times;</span>
+      <h2>Signup</h2>
+      <form id="signup-form">
+        <input type="text" id="signup-username" placeholder="Username" required />
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="password" id="signup-password" placeholder="Password" required />
+        <button type="submit">Signup</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🔑 Login Modal -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('login-modal')">&times;</span>
+      <h2>Login</h2>
+      <form id="login-form">
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 🚪 Logout Button (Only Visible When Logged In) -->
+  <button id="logout-btn" style="display: none;" onclick="logoutUser()">Logout</button>
+     
 </body>
 </html>
