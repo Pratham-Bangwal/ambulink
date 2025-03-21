@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Ambulink</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Contact Ambulink</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="hospitals.html">Hospitals</a></li>
+        <li><a href="status.html">Request Status</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <section class="content">
+    <h2>Contact Us</h2>
+    <form id="contact-form">
+      <input type="text" placeholder="Your Name" required aria-label="Your Name" />
+      <input type="email" placeholder="Your Email" required aria-label="Your Email" />
+      <textarea placeholder="Your Message" required aria-label="Your Message"></textarea>
+      <!-- File upload for an attachment (if needed) -->
+      <input type="file" id="attachment" aria-label="Attachment" />
+      <button type="submit">Send</button>
+    </form>
+    <div id="contact-feedback"></div>
+  </section>
+</body>
+</html>

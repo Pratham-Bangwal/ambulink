@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambulink - Emergency Response</title>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- AOS for scroll animations -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <!-- Header with Navigation, Dark Mode Toggle, Language Selector, and a Search Bar -->
+  <header>
+    <div class="topbar">
+      <div class="search-container">
+        <input type="text" id="nav-search" placeholder="Search..." aria-label="Site Search" />
+        <button id="search-button"><i class="fa fa-search"></i></button>
+      </div>
+      <div class="actions">
+        <button id="dark-mode-toggle" aria-label="Toggle Dark Mode"><i class="fa fa-moon"></i></button>
+        <select id="lang-selector" aria-label="Select Language">
+          <option value="en">EN</option>
+          <option value="hi">HI</option>
+          <!-- Add more languages as needed -->
+        </select>
+      </div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="hospitals.html">Hospitals</a></li>
+        <li><a href="status.html">Request Status</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="emergency-tips.html">Emergency Tips</a></li>
+        <li><a href="faqs.html">FAQs</a></li>
+        <li><a href="stories.html">Stories</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section with AOS animation -->
+    <section class="hero" data-aos="fade-up">
+      <img src="ambulance-banner.jpg" alt="Ambulance Banner" />
+      <div class="hero-text">
+        <h2>Fast & Reliable Ambulance Service</h2>
+        <p>Emergency medical help at your fingertips.</p>
+        <button onclick="callEmergency()">Call Now</button>
+        <button onclick="location.href='status.html'">Check Request Status</button>
+      </div>
+    </section>
+    <!-- You can add more sections here -->
+  </main>
+
+  <!-- Chatbot Widget Placeholder -->
+  <div id="chat-widget" class="chat-closed">
+    <div id="chat-header" onclick="toggleChat()">
+      <i class="fa fa-comments"></i> Chat
+    </div>
+    <div id="chat-body">
+      <p>Hello! How can we assist you today?</p>
+      <!-- Chat conversation messages would appear here -->
+    </div>
+  </div>
+
+  <!-- Push Notification Request -->
+  <button id="notify-button" onclick="requestPushNotification()">Enable Notifications</button>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Ambulink. Empowering Healthcare, Saving Lives.</p>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+</body>
+</html>

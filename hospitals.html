@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="pageTitleHospitals">Hospitals Near You - Ambulink</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Marker Cluster CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+  <!-- Load Leaflet JS first -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Then Marker Cluster JS -->
+  <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+  <!-- Then your custom JS -->
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1 data-i18n="hospitalsHeader">Find Hospitals Near You</h1>
+    <nav>
+      <ul>
+         <li><a href="index.html" data-i18n="navHome">Home</a></li>
+         <li><a href="hospitals.html" class="active" data-i18n="navHospitals">Hospitals</a></li>
+         <li><a href="status.html" data-i18n="navStatus">Request Status</a></li>
+         <li><a href="contact.html" data-i18n="navContact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="content">
+    <h2 data-i18n="hospitalsSectionTitle">Nearby Hospitals</h2>
+    <!-- Search input for hospitals with translatable placeholder -->
+    <div class="hospital-search">
+      <input
+        type="text"
+        id="hospital-search"
+        placeholder="Search hospitals by name..."
+        data-i18n-placeholder="hospitalSearchPlaceholder"
+        aria-label="Search Hospitals"
+      />
+      <button onclick="searchHospitals()" data-i18n="searchButton"><i class="fa fa-search"></i></button>
+    </div>
+    <div id="hospital-map"></div>
+  </section>
+
+  <footer>
+    <p data-i18n="footerTextHospitals">© 2025 Ambulink. Empowering Healthcare, Saving Lives.</p>
+  </footer>
+</body>
+</html>
