@@ -1,11 +1,89 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
+
+app = Flask(__name__)
+CORS(app)
+
+# Initialize extensions
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'  # Using SQLite for simplicity
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'your_secret_key_here'
+
+db = SQLAlchemy(app)
+bcrypt = Bcrypt(app)
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+
+# Define User Model
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(200), nullable=False)
+
+# Load User Session
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+# Create database tables (run once)
+with app.app_context():
+    db.create_all()
+
+@app.route("/")
+def home():
+    return "🚑 Ambulink Backend is Running!"
+
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    data = request.get_json()
+    username = data.get("username")
+    email = data.get("email")
+    password = data.get("password")
+    if User.query.filter_by(username=username).first():
+        return jsonify({"error": "Username already taken"}), 400
+
+    if User.query.filter_by(email=email).first():
+        return jsonify({"error": "Email already registered"}), 400
+
+    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+    new_user = User(username=username, email=email, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({"message": "User registered successfully!"}), 201
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    email = data.get("email")
+    password = data.get("password")
+
+    user = User.query.filter_by(email=email).first()
+    if user and bcrypt.check_password_hash(user.password, password):
+        login_user(user)
+        return jsonify({"message": "Login successful!", "user": user.username})
+    
+    return jsonify({"error": "Invalid credentials"}), 401
+
+@app.route("/logout", methods=["POST"])
+
+@login_required
+
+def logout():
+    logout_user()
+    return jsonify({"message": "Logged out successfully!"})
+
+
 import datetime
 import math
 from threading import Lock
 
-app = Flask(__name__)
-CORS(app)
 
 # Simulated ambulance data with coordinates and status
 ambulance_data = {
@@ -28,9 +106,7 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c
 
-@app.route("/")
-def home():
-    return "🚑 Ambulink Backend is Running!"
+
 
 @app.route("/get_ambulance_locations", methods=["GET"])
 def get_ambulance_locations():
