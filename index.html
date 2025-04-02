@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ambulink - Emergency Response</title>
-  <!-- FontAwesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- AOS for scroll animations -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
-  <!-- Custom Styles -->
+  <title data-i18n="pageTitle">Ambulink - Emergency Response</title>
   <link rel="stylesheet" href="styles.css" />
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
+  <!-- Socket.IO client -->
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
   <script defer src="script.js"></script>
 </head>
 <body>
-  <!-- Header with Navigation, Dark Mode Toggle, Language Selector, and a Search Bar -->
+  <!-- Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <!-- Chat Widget -->
+  <div id="chat-widget">
+    <div id="chat-header" data-i18n="chatHeader">Need Help? Chat with Us!</div>
+    <div id="chat-body">
+      <div class="chat-message bot" data-i18n="chatWelcome">Hello! How can we assist you today?</div>
+    </div>
+    <textarea id="chat-input" placeholder="Type your message..."></textarea>
+  </div>
+
+  <!-- Header with Navigation -->
   <header>
     <div class="topbar">
       <div class="search-container">
@@ -27,107 +37,48 @@
         <select id="lang-selector" aria-label="Select Language">
           <option value="en">EN</option>
           <option value="hi">HI</option>
-          <!-- Add more languages as needed -->
         </select>
       </div>
     </div>
     <nav>
       <ul>
-        <li><a href="index.html" class="active">Home</a></li>
-        <li><a href="hospitals.html">Hospitals</a></li>
-        <li><a href="status.html">Request Status</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="emergency-tips.html">Emergency Tips</a></li>
-        <li><a href="faqs.html">FAQs</a></li>
-        <li><a href="stories.html">Stories</a></li>
+        <li><a href="index.html" class="active" data-i18n="navHome">Home</a></li>
+        <li><a href="hospitals.html" data-i18n="navHospitals">Hospitals</a></li>
+        <li><a href="status.html" data-i18n="navStatus">Request Status</a></li>
+        <li><a href="contact.html" data-i18n="navContact">Contact</a></li>
+        <li><a href="emergency-tips.html" data-i18n="navEmergencyTips">Emergency Tips</a></li>
+        <li><a href="faqs.html" data-i18n="navFAQs">FAQs</a></li>
+        <li><a href="stories.html" data-i18n="navStories">Stories</a></li>
+        <li><a href="dashboard.html" data-i18n="navDashboard">Dashboard</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <!-- Hero Section with AOS animation -->
-    <section class="hero" data-aos="fade-up">
-      <img src="ambulance-banner.jpg" alt="Ambulance Banner" />
-      <div class="hero-text">
-        <h2>Fast & Reliable Ambulance Service</h2>
-        <p>Emergency medical help at your fingertips.</p>
-        <button onclick="callEmergency()">Call Now</button>
-        <button onclick="location.href='status.html'">Check Request Status</button>
-      </div>
-    </section>
-    <!-- You can add more sections here -->
-  </main>
-  <!-- 🚀 Signup Form -->
-  <form onsubmit="signupUser(event)">
-      <input type="text" id="signup-username" placeholder="Username" required>
-      <input type="email" id="signup-email" placeholder="Email" required>
-      <input type="password" id="signup-password" placeholder="Password" required>
-      <button type="submit">Sign Up</button>
-  </form>
-
-  <!-- 🚀 Login Form -->
-  <form onsubmit="loginUser(event)">
-      <input type="email" id="login-email" placeholder="Email" required>
-      <input type="password" id="login-password" placeholder="Password" required>
-      <button type="submit">Login</button>
-  </form>
-
-  <!-- 🚪 Logout Button -->
-  <button onclick="logoutUser()">Logout</button>
-
-  <!-- Chatbot Widget Placeholder -->
-  <div id="chat-widget" class="chat-closed">
-    <div id="chat-header" onclick="toggleChat()">
-      <i class="fa fa-comments"></i> Chat
+  <!-- Hero Section -->
+  <section class="hero" data-aos="fade-up">
+    <img src="ambulance-banner.jpg" alt="Ambulance Banner" loading="lazy" />
+    <div class="hero-text">
+      <h2 data-i18n="heroHeading">Fast & Reliable Ambulance Service</h2>
+      <p data-i18n="heroSubText">Emergency medical help at your fingertips.</p>
+      <!-- One-Tap Emergency Call Button -->
+      <button onclick="callEmergency()" data-i18n="callNow">Call Now</button>
+      <button onclick="location.href='status.html'" data-i18n="checkStatus">Check Request Status</button>
     </div>
-    <div id="chat-body">
-      <p>Hello! How can we assist you today?</p>
-      <!-- Chat conversation messages would appear here -->
-    </div>
-  </div>
-
-  <!-- Push Notification Request -->
-  <button id="notify-button" onclick="requestPushNotification()">Enable Notifications</button>
+  </section>
 
   <!-- Footer -->
   <footer>
-    <p>© 2025 Ambulink. Empowering Healthcare, Saving Lives.</p>
+    <p data-i18n="footerText">© 2025 Ambulink. Empowering Healthcare, Saving Lives.</p>
   </footer>
 
-  <!-- AOS JS -->
+  <!-- AOS Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    AOS.init();
+    document.addEventListener("DOMContentLoaded", function() {
+      AOS.init();
+      gsap.from(".hero-text h2", { duration: 1, x: -100, opacity: 0 });
+      initVoiceCommands(); // from script.js
+    });
   </script>
-  <!-- 🔑 Signup Modal -->
-  <div id="signup-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('signup-modal')">&times;</span>
-      <h2>Signup</h2>
-      <form id="signup-form">
-        <input type="text" id="signup-username" placeholder="Username" required />
-        <input type="email" id="signup-email" placeholder="Email" required />
-        <input type="password" id="signup-password" placeholder="Password" required />
-        <button type="submit">Signup</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 🔑 Login Modal -->
-  <div id="login-modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('login-modal')">&times;</span>
-      <h2>Login</h2>
-      <form id="login-form">
-        <input type="email" id="login-email" placeholder="Email" required />
-        <input type="password" id="login-password" placeholder="Password" required />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- 🚪 Logout Button (Only Visible When Logged In) -->
-  <button id="logout-btn" style="display: none;" onclick="logoutUser()">Logout</button>
-     
 </body>
 </html>
